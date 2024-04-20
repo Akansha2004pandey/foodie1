@@ -36,6 +36,21 @@ const Body = () => {
     )
    };
    
+   const ShowMore=async ()=>{
+     try{
+     const newdata= await fetch("https://corsproxy.io/?https://www.swiggy.com/api/seo/getListing?lat=28.67003492726483&lng=77.11469986756225");
+     const jsondata= await newdata.json();
+     console.log(jsondata);
+     setFilterToList(jsondata?.data?.success?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+     setFilter(jsondata?.data?.success?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+     }
+    catch(error){
+        console.log(error);
+     }
+    console.log("error");
+
+   }
+   
     return (myList?.length===0)?(<Shimmer/>):(<div className="body"> 
         <div className="filter">
             <div className="mx-4 my-2 p-4">
@@ -74,6 +89,9 @@ const Body = () => {
             {restaurant.info.avgRating>4.3?<PromotedRestaurant resData={restaurant}/>:<RestaurantCard  resData={restaurant}/>}
             </Link>)
            }
+        </div>
+        <div className="flex justify-center">
+        <button className="p-3 text-white bg-orange-500 my-4 mx-auto border-hidden rounded-lg" onClick={ShowMore}>Show more</button>
         </div>
     </div>)
 };
